@@ -20,6 +20,6 @@ module.exports = {
     },
     plugins:[
         HtmlWebpackPluginConfig,
-        new webpack.optimize.UglifyJsPlugin()
+        // new webpack.optimize.UglifyJsPlugin()
     ]
 }
