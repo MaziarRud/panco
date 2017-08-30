@@ -37,8 +37,11 @@ module.exports = {
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
-                use: ['file-loader?name=images/[hash:12].[ext]','image-webpack-loader']
+                use: ['url-loader?name=images/[name].[ext]&limit=8192', 'image-webpack-loader'],
+                // use: ['file-loader?name=images/[name].[ext]', 'image-webpack-loader'],
+                exclude: path.resolve(__dirname, "node_modules")
             }
+            
         ]
     },
     plugins: [
