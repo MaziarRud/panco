@@ -1,7 +1,7 @@
-import $ from 'jquery';
+// import $ from 'jquery';
 require('../css/main.css');
 
-window.$ = window.jQuery = $;
+// window.$ = window.jQuery = $;
 
 // document.body.textContent = "Hey there";
 
@@ -18,5 +18,7 @@ window.$ = window.jQuery = $;
 // document.body.insertAdjacentHTML('beforeend', ar);
 
 // jQuery('.one').text('sdfssf')
+
+// $('body').css("background-color", "blue");
 
 

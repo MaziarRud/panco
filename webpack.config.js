@@ -41,7 +41,7 @@ module.exports = {
                 // use: ['file-loader?name=images/[name].[ext]', 'image-webpack-loader'],
                 exclude: path.resolve(__dirname, "node_modules")
             }
-            
+
         ]
     },
     plugins: [
@@ -51,6 +51,10 @@ module.exports = {
             filename: 'css/[name].bundle.css',
             disable: !isProd,
             allChunks: true
+        }),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery'
         })
     ]
 }
