@@ -6,6 +6,9 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
     title: "Panco",
     template: "./src/index.ejs"
 });
+const glob = require('glob');
+const PurifyCSSPlugin = require('purifycss-webpack');
+
 
 const isProd = process.env.NODE_ENV = 'production';
 const cssDev = ['style-loader', 'css-loader', 'sass-loader'];
@@ -39,7 +42,7 @@ module.exports = {
                 test: /\.(jpe?g|png|gif|svg)$/i,
                 use: ['url-loader?name=images/[name].[ext]&limit=8192', 'image-webpack-loader'],
                 // use: ['file-loader?name=images/[name].[ext]', 'image-webpack-loader'],
-                exclude: path.resolve(__dirname, "node_modules")
+                exclude: /node_modules/
             }
 
         ]
@@ -51,6 +54,10 @@ module.exports = {
             filename: 'css/[name].bundle.css',
             disable: !isProd,
             allChunks: true
+        }),
+        new PurifyCSSPlugin({
+            paths: glob.sync(path.join(__dirname, 'src/*.ejs')),
+            minimize: true
         }),
         new webpack.ProvidePlugin({
             $: 'jquery',
