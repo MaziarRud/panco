@@ -19,13 +19,10 @@ const cssProd = ExtractTextPlugin.extract({
 });
 
 const cssConfig = isProd ? cssProd : cssDev;
-const bootstrapEntryPoints = require('./webpack.bootstrap.config');
-const bootstrapConfig = isProd ? bootstrapEntryPoints.prod : bootstrapEntryPoints.dev;
 
 module.exports = {
     entry: {
         main: './src/js/main.js',
-        bootstrap: bootstrapConfig
     },
     output: {
         path: path.resolve(__dirname, "dist"),
@@ -48,18 +45,13 @@ module.exports = {
                 exclude: /node_modules/
             },
             {
-                test: /\.(woff2?)$/,
+                test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 use: 'url-loader?limit=10000&name=fonts/[name].[ext]'
             },
             {
-                test: /\.(ttf|eot)$/,
+                test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 use: 'file-loader?name=fonts/[name].[ext]'
             },
-            // Bootstrap 3
-            {
-                test: /bootstrap-sass[\/\\]assets[\/\\]javascripts[\/\\]/,
-                use: 'imports-loader?jQuery=jquery'
-            }
 
         ]
     },
@@ -77,7 +69,9 @@ module.exports = {
         }),
         new webpack.ProvidePlugin({
             $: 'jquery',
-            jQuery: 'jquery'
+            jQuery: 'jquery',
+            'window.$': 'jquery',
+            'window.jQuery': 'jquery',
         })
     ]
 }

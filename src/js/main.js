@@ -1,5 +1,10 @@
 // import $ from 'jquery';
 // require('bootstrap-loader');
+// require('materialize-css/dist/css/materialize.min.css');
+// require('materialize-css/dist/js/materialize.min.js');
+// import 'materialize-css/dist/js/materialize.min.js';
+// import 'materialize-css/dist/css/materialize.min.css';
+require("materialize-loader");
 require('../css/main.scss');
 
 // window.$ = window.jQuery = $;
