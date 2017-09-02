@@ -1,5 +1,6 @@
 // import $ from 'jquery';
-require('../css/main.css');
+// require('bootstrap-loader');
+require('../css/main.scss');
 
 // window.$ = window.jQuery = $;
 

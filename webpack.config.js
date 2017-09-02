@@ -19,30 +19,46 @@ const cssProd = ExtractTextPlugin.extract({
 });
 
 const cssConfig = isProd ? cssProd : cssDev;
+const bootstrapEntryPoints = require('./webpack.bootstrap.config');
+const bootstrapConfig = isProd ? bootstrapEntryPoints.prod : bootstrapEntryPoints.dev;
 
 module.exports = {
-    entry: "./src/js/main.js",
+    entry: {
+        main: './src/js/main.js',
+        bootstrap: bootstrapConfig
+    },
     output: {
         path: path.resolve(__dirname, "dist"),
-        filename: "js/[name].bundle.js"
+        filename: "js/[name].[chunkhash].js"
     },
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.js$/,
                 use: ["babel-loader"],
-                exclude: path.resolve(__dirname, "node_modules")
+                exclude: /node_modules/
             },
             {
-                test: /\.css$/,
+                test: /\.s?css$/,
                 use: cssConfig,
-                exclude: path.resolve(__dirname, "node_modules")
+                exclude: /node_modules/
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
-                use: ['url-loader?name=images/[name].[ext]&limit=8192', 'image-webpack-loader'],
-                // use: ['file-loader?name=images/[name].[ext]', 'image-webpack-loader'],
+                use: ['url-loader?name=images/[name].[ext]&limit=10000', 'image-webpack-loader'],
                 exclude: /node_modules/
+            },
+            {
+                test: /\.(woff2?)$/,
+                use: 'url-loader?limit=10000&name=fonts/[name].[ext]'
+            },
+            {
+                test: /\.(ttf|eot)$/,
+                use: 'file-loader?name=fonts/[name].[ext]'
+            },
+            // Bootstrap 3
+            {
+                test: /bootstrap-sass[\/\\]assets[\/\\]javascripts[\/\\]/,
+                use: 'imports-loader?jQuery=jquery'
             }
 
         ]
