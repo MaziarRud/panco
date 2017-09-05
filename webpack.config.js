@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const CompressionPlugin = require("compression-webpack-plugin");
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
@@ -11,25 +12,27 @@ const PurifyCSSPlugin = require('purifycss-webpack');
 
 
 const isProd = process.env.NODE_ENV = 'production';
-const cssDev = ['style-loader', 'css-loader', 'sass-loader'];
+const cssDev = ['style-loader', {loader: 'css-loader', options: {importLoaders: 1}}, 'postcss-loader', 'sass-loader'];
 const cssProd = ExtractTextPlugin.extract({
     fallback: 'style-loader',
-    use: ['css-loader', 'sass-loader'],
-    publicPath: '../',
+    use: [{loader: 'css-loader', options: {importLoaders: 1}}, 'postcss-loader', 'sass-loader'],
+    publicPath: "../"
 });
 
 const cssConfig = isProd ? cssProd : cssDev;
-// const material = require('materialize-loader')
+
 const VENDORS = ['jquery'];
 
 module.exports = {
+    // context: path.resolve(__dirname, "panco"),
     entry: {
         main: './src/js/main.js',
         // vendors: VENDORS
     },
     output: {
         path: path.resolve(__dirname, "dist"),
-        filename: "js/[name].[chunkhash].js"
+        filename: "js/[name].[chunkhash].js",
+        // publicPath: "../dist/"
     },
     module: {
         rules: [{
@@ -70,7 +73,7 @@ module.exports = {
         }),
         new PurifyCSSPlugin({
             paths: glob.sync(path.join(__dirname, 'src/*.ejs')),
-            minimize: true
+            // minimize: true
         }),
         // new webpack.optimize.CommonsChunkPlugin({
         //     name: "vendors",
@@ -81,6 +84,13 @@ module.exports = {
             jQuery: 'jquery',
             'window.$': 'jquery',
             'window.jQuery': 'jquery',
+        }),
+        new CompressionPlugin({
+            asset: "[path].gz[query]",
+            algorithm: "gzip",
+            test: /\.(js|html|css)$/,
+            threshold: 10240,
+            minRatio: 0.8
         })
     ]
 }

@@ -2,8 +2,8 @@
 // require('bootstrap-loader');
 // require('materialize-css/dist/css/materialize.css');
 // require('materialize-css/dist/js/materialize.min.js');
-import 'materialize-css/dist/js/materialize.min.js';
 // import 'materialize-css/dist/css/materialize.min.css';
+import 'materialize-css/dist/js/materialize.min.js';
 // require("materialize-loader");
 require('../css/main.scss');
 
@@ -27,14 +27,19 @@ require('../css/main.scss');
 
 // $('body').css("background-color", "blue");
 
-$('.dropdown-button').dropdown({
-    inDuration: 300,
-    outDuration: 225,
-    constrainWidth: false, // Does not change width of dropdown to that of the activator
-    hover: true, // Activate on hover
-    gutter: 0, // Spacing from edge
-    belowOrigin: false, // Displays dropdown below the button
-    alignment: 'left', // Displays dropdown with edge aligned to the left of button
-    stopPropagation: false // Stops event propagation
-  }
-);
+Materialize.updateTextFields();
+
+var slider = document.getElementById('test-slider');
+noUiSlider.create(slider, {
+ start: [20, 80],
+ connect: true,
+ step: 1,
+ orientation: 'horizontal', // 'horizontal' or 'vertical'
+ range: {
+   'min': 0,
+   'max': 100
+ },
+ format: wNumb({
+   decimals: 0
+ })
+});
